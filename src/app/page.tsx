@@ -23,6 +23,7 @@ const steps = [
 
 function WizardSteps() {
   const { step } = useWizard();
+  console.log('WizardContent step:', step);
 
   return (
     <div className="relative mb-8">
