@@ -30,7 +30,11 @@ export default function Register() {
   return (
     <div className="">
       <h2 className="text-2xl font-bold mb-6 text-center">Create Account</h2>
-      <form onSubmit={formik.handleSubmit} className="">
+      <form onSubmit={(e)=>{
+            e.preventDefault();
+            formik.handleSubmit(e);
+      }} 
+      className="">
         <div className='max-w-full'>
           <label htmlFor="email" className="block text-sm font-medium mb-4px">
             Email
