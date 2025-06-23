@@ -1,11 +1,10 @@
 import type { NextConfig } from "next";
+const repo = 'webview-poc';
 
 const nextConfig: NextConfig = {
-  /* config options here */
-    output: 'export',
-  // Replace with your repo name
-  basePath: '/webview-poc',
-  assetPrefix: '/webview-poc/',
+  output: 'export',
+  basePath: `/${repo}`,
+  assetPrefix: `/${repo}/`,
 };
 
 export default nextConfig;
