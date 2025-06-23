@@ -68,7 +68,6 @@ export default function IdentityVerification() {
 
 
     const startRecording = useCallback(() => {
-        alert("Start recording clicked!" + (window as MyWindow).ReactNativeWebView)
         if (!!(window as MyWindow).ReactNativeWebView) {
             return (window as MyWindow )?.ReactNativeWebView?.postMessage(JSON.stringify({
                 event: "permission",
