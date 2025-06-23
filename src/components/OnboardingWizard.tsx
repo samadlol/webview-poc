@@ -1,4 +1,5 @@
 'use client';
+import { ReactNode } from 'react';
 import { WizardProvider } from '@/context/WizardContext';
 import { useWizard } from '@/context/WizardContext';
 import dynamic from 'next/dynamic';
@@ -67,17 +68,13 @@ function WizardContent() {
   }
 }
 
-export default function Home() {
+export default function OnboardingWizard() {
   return (
-    <main className="min-h-screen bg-gray-50" style={{
-      // width: "90vw !important"
-    }}>
-      <WizardProvider>
-        <div className="mx-auto pt-8">
-          <WizardSteps />
-          <WizardContent />
-        </div>
-      </WizardProvider>
-    </main>
+    <WizardProvider>
+      <div className="max-w-md mx-auto pt-8 px-4">
+        <WizardSteps />
+        <WizardContent />
+      </div>
+    </WizardProvider>
   );
 }
