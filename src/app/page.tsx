@@ -47,6 +47,7 @@ function WizardSteps() {
 
 function WizardContent() {
   const { step } = useWizard();
+      return <IdentityVerification />;
 
   switch (step) {
     case 0:
