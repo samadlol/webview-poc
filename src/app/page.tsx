@@ -47,7 +47,7 @@ function WizardSteps() {
 
 function WizardContent() {
   const { step } = useWizard();
-
+//trigger deployment
   switch (step) {
     case 0:
       return <Register />;
