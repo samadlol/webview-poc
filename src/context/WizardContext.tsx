@@ -14,13 +14,13 @@ const WizardContext = createContext<WizardContextType | undefined>(undefined);
 
 export function WizardProvider({ children }: { children: React.ReactNode }) {
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState<any>(() => {
+  const [formData, setFormData] = useState<Any>(() => {
     if (typeof window !== 'undefined') {
       return JSON.parse(localStorage.getItem('wizardFormData') || '{}');
     }
     return {};
   });
-  
+
   useEffect(() => {
     localStorage.setItem('wizardStep', String(step));
   }, [step]);
