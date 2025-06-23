@@ -30,10 +30,11 @@ export default function Register() {
   return (
     <div className="">
       <h2 className="text-2xl font-bold mb-6 text-center">Create Account</h2>
-      <form onSubmit={(e)=>{
-            e.preventDefault();
-            formik.handleSubmit(e);
-      }} 
+      <form 
+    //   onSubmit={(e)=>{
+    //         e.preventDefault();
+    //         // formik.handleSubmit(e);
+    //   }} 
       className="">
         <div className='max-w-full'>
           <label htmlFor="email" className="block text-sm font-medium mb-4px">
@@ -43,6 +44,9 @@ export default function Register() {
             id="email"
             type="email"
             {...formik.getFieldProps('email')}
+            onChange={e => {
+                updateFormData({ email: e.target.value });
+            }}
             className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
           />
           {formik.touched.email && formik.errors.email && (
@@ -58,6 +62,9 @@ export default function Register() {
             id="password"
             type="password"
             {...formik.getFieldProps('password')}
+            onChange={e => {
+                updateFormData({ password: e.target.value });
+            }}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
           />
           {formik.touched.password && formik.errors.password && (
@@ -82,6 +89,9 @@ export default function Register() {
 
         <button
           type="submit"
+          onClick={()=>{
+            setStep(1);
+          }}
           className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
           Continue
