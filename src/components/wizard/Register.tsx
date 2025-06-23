@@ -22,8 +22,8 @@ export default function Register() {
         .required('Required'),
     }),
     onSubmit: (values) => {
-      updateFormData({ email: values.email, password: values.password });
-      setStep(1); // Move to OTP verification
+        setStep(1); // Move to OTP verification
+        updateFormData({ email: values.email, password: values.password });
     },
   });
 

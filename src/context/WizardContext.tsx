@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Any = Record<string, unknown>
 
@@ -14,10 +14,23 @@ const WizardContext = createContext<WizardContextType | undefined>(undefined);
 
 export function WizardProvider({ children }: { children: React.ReactNode }) {
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<any>(() => {
+    if (typeof window !== 'undefined') {
+      return JSON.parse(localStorage.getItem('wizardFormData') || '{}');
+    }
+    return {};
+  });
+  
+  useEffect(() => {
+    localStorage.setItem('wizardStep', String(step));
+  }, [step]);
+
+  useEffect(() => {
+    localStorage.setItem('wizardFormData', JSON.stringify(formData));
+  }, [formData]);
 
   const updateFormData = (data: Any) => {
-    setFormData((prev) => ({ ...prev, ...data }));
+    setFormData((prev: Any) => ({ ...prev, ...data }));
   };
 
   return (
