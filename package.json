@@ -10,7 +10,7 @@
     "lint": "next lint",
     "export": "next export",
     "predeploy": "npm run build",
-    "deploy": "npm run build && npm run export && touch ./out/.nojekyll && gh-pages -d out -t true"
+    "deploy": "gh-pages -d out --nojekyll --cname https://samadlol.github.io/webview-poc"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
