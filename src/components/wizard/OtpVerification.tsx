@@ -18,7 +18,7 @@ export default function OtpVerification() {
         <div className="p-4 max-w-md mx-auto">
             <h2 className="text-2xl font-bold mb-6 text-center">Verify Your Email</h2>
             <p className="text-center text-gray-600 mb-6">
-                We've sent a verification code to your email address
+                We have sent a verification code to your email address
             </p>
 
             <div className="mb-6">
@@ -56,7 +56,7 @@ export default function OtpVerification() {
             </button>
 
             <p className="text-center mt-4 text-sm text-gray-600">
-                Didn't receive the code?{' '}
+                Did not receive the code?
                 <button className="text-blue-600 hover:underline">Resend</button>
             </p>
         </div>

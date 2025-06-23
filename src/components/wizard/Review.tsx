@@ -18,17 +18,17 @@ export default function Review() {
         <div>
           <h3 className="font-semibold mb-2">Account Information</h3>
           <div className="bg-gray-50 p-3 rounded-lg">
-            <p>Email: {formData.email}</p>
+            <p>Email: {(formData as ({ email: string })).email}</p>
           </div>
         </div>
 
         <div>
           <h3 className="font-semibold mb-2">Company Information</h3>
           <div className="bg-gray-50 p-3 rounded-lg">
-            <p>Phone: {formData.phoneNumber}</p>
-            <p>Company Email: {formData.companyEmail}</p>
-            <p>CR Number: {formData.crNumber}</p>
-            <p>National ID/Iqama: {formData.nationalId}</p>
+            <p>Phone: {(formData as ({ phoneNumber: string })).phoneNumber}</p>
+            <p>Company Email: {(formData as ({ companyEmail: string })).companyEmail}</p>
+            <p>CR Number: {(formData as ({ crNumber: string })).crNumber}</p>
+            <p>National ID/Iqama: {(formData as ({ nationalId: string })).nationalId}</p>
           </div>
         </div>
 
@@ -36,7 +36,7 @@ export default function Review() {
           <h3 className="font-semibold mb-2">Selected Services</h3>
           <div className="bg-gray-50 p-3 rounded-lg">
             <ul className="list-disc list-inside">
-              {formData.selectedServices?.map((service: string) => (
+              {(formData as ({selectedServices: string[]})).selectedServices?.map((service: string) => (
                 <li key={service} className="capitalize">
                   {service}
                 </li>

@@ -2,11 +2,13 @@
   "name": "webview-poc",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://samadlol.github.io/webview-poc",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",

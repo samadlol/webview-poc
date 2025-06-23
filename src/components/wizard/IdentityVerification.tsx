@@ -3,47 +3,20 @@ import { useWizard } from '@/context/WizardContext';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 
+
+interface MyWindow extends Window {
+    ReactNativeWebView?: {
+        postMessage: (message: string) => void;
+    };
+}
+
 export default function IdentityVerification() {
     const { setStep, updateFormData } = useWizard();
     const webcamRef = useRef<Webcam>(null);
     const [isRecording, setIsRecording] = useState(false);
     const [recordingComplete, setRecordingComplete] = useState(false);
     const [countdown, setCountdown] = useState(5);
-    useEffect(() => {
-        window.addEventListener("message", handleMessage)
-
-        return () => {
-            window.removeEventListener("message", handleMessage)
-        }
-    }, []);
-    useEffect(() => {
-        if (countdown == 0) {
-            // In a real app, you would process and upload the video
-            updateFormData({
-                verificationVideo: 'video-recorded',
-            });
-
-        }
-    }, [countdown]);
-
-    const handleMessage = (message: any) => {
-        try {
-            const data = JSON.parse(message?.data);
-            switch (data.type) {
-                case "permission": {
-                    console.log("IM HERE DATA", data)
-                    if (data.payload.status === "granted") {
-                        start()
-                    }
-                    break;
-                }
-            }
-        } catch (error) {
-
-        }
-    }
-
-    const start = () => {
+       const start = useCallback(() => {
         setIsRecording(true);
         setCountdown(5);
 
@@ -58,17 +31,51 @@ export default function IdentityVerification() {
                 return prev - 1;
             });
         }, 1000);
-    }
+    },[setCountdown, setIsRecording, setRecordingComplete]);
+ const handleMessage = useCallback((message: {data: string}) => {
+        try {
+            const data = JSON.parse(message?.data);
+            switch (data.type) {
+                case "permission": {
+                    console.log("IM HERE DATA", data)
+                    if (data.payload.status === "granted") {
+                        start()
+                    }
+                    break;
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    },[start]);
+    useEffect(() => {
+        window.addEventListener("message", handleMessage)
+
+        return () => {
+            window.removeEventListener("message", handleMessage)
+        }
+    }, [handleMessage]);
+    useEffect(() => {
+        if (countdown == 0) {
+            // In a real app, you would process and upload the video
+            updateFormData({
+                verificationVideo: 'video-recorded',
+            });
+
+        }
+    }, [countdown,updateFormData]);
+
+
 
     const startRecording = useCallback(() => {
-        if (!!(window as any).ReactNativeWebView) {
-            return (window as any).ReactNativeWebView.postMessage(JSON.stringify({
+        if (!!(window as MyWindow).ReactNativeWebView) {
+            return (window as MyWindow )?.ReactNativeWebView?.postMessage(JSON.stringify({
                 event: "permission",
                 type: "camera"
             }))
         }
         start()
-    }, [updateFormData]);
+    }, [start]);
 
     return (
         <div className="p-4 max-w-md mx-auto">

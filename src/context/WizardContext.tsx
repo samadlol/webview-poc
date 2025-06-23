@@ -1,11 +1,13 @@
 'use client';
 import React, { createContext, useContext, useState } from 'react';
 
+type Any = Record<string, unknown>
+
 interface WizardContextType {
   step: number;
-  formData: any;
+  formData: Any;
   setStep: (step: number) => void;
-  updateFormData: (data: any) => void;
+  updateFormData: (data: Any) => void;
 }
 
 const WizardContext = createContext<WizardContextType | undefined>(undefined);
@@ -14,7 +16,7 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
 
-  const updateFormData = (data: any) => {
+  const updateFormData = (data: Any) => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
 
