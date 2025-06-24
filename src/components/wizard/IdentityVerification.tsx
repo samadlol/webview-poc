@@ -1,13 +1,14 @@
 'use client';
 import { useWizard } from '@/context/WizardContext';
 import { isWebViewEnv, postMessage } from '@/utils/eventDispatcher';
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, RefObject } from 'react';
 import Webcam from 'react-webcam';
 
 
 export default function IdentityVerification() {
     const { setStep, updateFormData } = useWizard();
     const webcamRef = useRef<Webcam>(null);
+    const hasSent: RefObject<boolean> = useRef(false);
     const [isRecording, setIsRecording] = useState(false);
     const [recordingComplete, setRecordingComplete] = useState(false);
     const [countdown, setCountdown] = useState(5);
@@ -26,7 +27,7 @@ export default function IdentityVerification() {
                 return prev - 1;
             });
         }, 1000);
-    }, [setCountdown, setIsRecording, setRecordingComplete]);
+    }, [setCountdown, setIsRecording, setRecordingComplete, updateFormData]);
     const handleMessage = useCallback((message: { data: string }) => {
         try {
             const data = JSON.parse(message?.data);
@@ -50,16 +51,15 @@ export default function IdentityVerification() {
             window.removeEventListener("message", handleMessage)
         }
     }, [handleMessage]);
+
     useEffect(() => {
-        if (countdown == 0) {
-            // In a real app, you would process and upload the video
+        if (countdown == 0 && !hasSent.current) {
+            hasSent.current = true;
             updateFormData({
                 verificationVideo: 'video-recorded',
             });
         }
     }, [countdown, updateFormData]);
-
-
 
     const startRecording = useCallback(() => {
         if (isWebViewEnv()) {
