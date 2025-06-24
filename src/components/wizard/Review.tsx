@@ -8,11 +8,17 @@ export default function Review() {
   const handleSubmit = () => {
     // In a real app, this would submit the data to a backend
     console.log('Submitting form data:', formData);
-    alert('Registration submitted successfully, you will be redirected to the login page...');
     postMessage({
       event: "registration",
-      type: "success"
+      type: "loading"
     })
+    setTimeout(()=>{
+      alert('Registration submitted successfully, you will be redirected to the login page...');
+      postMessage({
+        event: "registration",
+        type: "success"
+      })
+    },2000)
   };
 
   return (
