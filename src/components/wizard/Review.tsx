@@ -1,13 +1,18 @@
 'use client';
 import { useWizard } from '@/context/WizardContext';
+import { postMessage } from '@/utils/eventDispatcher';
 
 export default function Review() {
-  const { formData } = useWizard();
+  const { formData, setStep } = useWizard();
 
   const handleSubmit = () => {
     // In a real app, this would submit the data to a backend
     console.log('Submitting form data:', formData);
     alert('Registration submitted successfully!');
+    postMessage({
+      event: "registration",
+      type: "success"
+    })
   };
 
   return (
@@ -58,7 +63,7 @@ export default function Review() {
 
       <div className="flex gap-3">
         <button
-          onClick={() => window.history.back()}
+          onClick={() => setStep((prev: number) => prev - 1)}
           className="flex-1 bg-gray-200 text-gray-800 py-2 rounded-lg hover:bg-gray-300 transition-colors"
         >
           Back

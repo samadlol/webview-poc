@@ -6,7 +6,7 @@ type Any = Record<string, unknown>
 interface WizardContextType {
   step: number;
   formData: Any;
-  setStep: (step: number) => void;
+  setStep: (step: number | ((step: number)=> number)) => void;
   updateFormData: (data: Any) => void;
 }
 

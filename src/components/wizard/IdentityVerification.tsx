@@ -1,14 +1,9 @@
 'use client';
 import { useWizard } from '@/context/WizardContext';
+import { postMessage } from '@/utils/eventDispatcher';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 
-
-interface MyWindow extends Window {
-    ReactNativeWebView?: {
-        postMessage: (message: string) => void;
-    };
-}
 
 export default function IdentityVerification() {
     const { setStep, updateFormData } = useWizard();
@@ -68,12 +63,10 @@ export default function IdentityVerification() {
 
 
     const startRecording = useCallback(() => {
-        if (!!(window as MyWindow).ReactNativeWebView) {
-            return (window as MyWindow )?.ReactNativeWebView?.postMessage(JSON.stringify({
+        postMessage({
                 event: "permission",
                 type: "camera"
-            }))
-        }
+            })
         start()
     }, [start]);
 
