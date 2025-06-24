@@ -11,7 +11,7 @@ export const isWebViewEnv = () => {
 }
 
 export const postMessage = (message: unknown) => {
-    let _window = window as MyWindow;
+    const _window = window as MyWindow;
     if (typeof _window.ReactNativeWebView !== 'undefined') {
         return _window.ReactNativeWebView.postMessage(JSON.stringify(message));
     }
