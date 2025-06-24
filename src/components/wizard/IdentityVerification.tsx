@@ -1,6 +1,6 @@
 'use client';
 import { useWizard } from '@/context/WizardContext';
-import { postMessage } from '@/utils/eventDispatcher';
+import { isWebViewEnv, postMessage } from '@/utils/eventDispatcher';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 
@@ -11,7 +11,7 @@ export default function IdentityVerification() {
     const [isRecording, setIsRecording] = useState(false);
     const [recordingComplete, setRecordingComplete] = useState(false);
     const [countdown, setCountdown] = useState(5);
-       const start = useCallback(() => {
+    const start = useCallback(() => {
         setIsRecording(true);
         setCountdown(5);
 
@@ -26,8 +26,8 @@ export default function IdentityVerification() {
                 return prev - 1;
             });
         }, 1000);
-    },[setCountdown, setIsRecording, setRecordingComplete]);
- const handleMessage = useCallback((message: {data: string}) => {
+    }, [setCountdown, setIsRecording, setRecordingComplete]);
+    const handleMessage = useCallback((message: { data: string }) => {
         try {
             const data = JSON.parse(message?.data);
             switch (data.type) {
@@ -42,7 +42,7 @@ export default function IdentityVerification() {
         } catch (error) {
             console.log(error)
         }
-    },[start]);
+    }, [start]);
     useEffect(() => {
         window.addEventListener("message", handleMessage)
 
@@ -56,17 +56,18 @@ export default function IdentityVerification() {
             updateFormData({
                 verificationVideo: 'video-recorded',
             });
-
         }
-    }, [countdown,updateFormData]);
+    }, [countdown, updateFormData]);
 
 
 
     const startRecording = useCallback(() => {
-        postMessage({
+        if (isWebViewEnv()) {
+            return postMessage({
                 event: "permission",
                 type: "camera"
             })
+        }
         start()
     }, [start]);
 
