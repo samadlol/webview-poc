@@ -1,6 +1,6 @@
 'use client';
 import { postMessage } from '@/utils/eventDispatcher';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 export type Any = Record<string, unknown>
 
@@ -18,8 +18,14 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
   const [formData, setFormData] = useState<Any>({});
 
   useEffect(() => {
-    window.addEventListener('message', (event) => {
-      const data = JSON.parse(event.data);
+    window.addEventListener('message',handleMessage)
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    }
+  }, []);
+
+  const handleMessage =useCallback( (message: { data: string }) => {
+            const data = JSON.parse(message?.data);
       switch (data.type) {
         case 'back':
           if (step <= 0) {
@@ -31,8 +37,7 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
           setStep((prev) => Math.max(prev - 1, 0));
           break;
       }
-    })
-  }, []);
+    }, [step]);
 
   const updateFormData = (data: Any) => {
     setFormData((prev: Any) => ({ ...prev, ...data }));
