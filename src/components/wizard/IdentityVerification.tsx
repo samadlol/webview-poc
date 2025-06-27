@@ -76,12 +76,21 @@ export default function IdentityVerification() {
             <h2 className="text-2xl font-bold mb-6 text-center">Identity Verification</h2>
 
             <div className="mb-6">
-                <div className="relative">
-                    {isRecording && <Webcam
+                <div className="flex justify-center items-center">
+                    <Webcam
                         ref={webcamRef}
                         audio={false}
                         className="w-full rounded-lg"
-                    />}
+                        style={{
+                            height: "90vw",
+                            width: "90vw",
+                            overflow: "hidden",
+                            display: "flex",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                            backgroundColor: "gray"
+                        }}
+                    />
                     {isRecording && (
                         <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full">
                             Recording... {countdown}s
