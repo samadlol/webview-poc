@@ -74,7 +74,7 @@ export default function Home() {
       // width: "90vw !important"
     }}>
       <WizardProvider>
-        <div className="mx-auto pt-8">
+        <div className="mx-auto pt-8 px-4">
           <WizardSteps />
           <WizardContent />
         </div>

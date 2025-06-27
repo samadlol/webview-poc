@@ -80,7 +80,7 @@ export default function IdentityVerification() {
                     <Webcam
                         ref={webcamRef}
                         audio={false}
-                        className="w-full rounded-lg"
+                        className="max-w-auto"
                         style={{
                             height: "90vw",
                             width: "90vw",
@@ -88,7 +88,8 @@ export default function IdentityVerification() {
                             display: "flex",
                             borderRadius: "50%",
                             objectFit: "cover",
-                            backgroundColor: "gray"
+                            backgroundColor: "gray",
+                            flex: 1
                         }}
                     />
                     {isRecording && (

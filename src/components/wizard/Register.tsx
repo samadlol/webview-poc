@@ -31,7 +31,7 @@ export default function Register() {
     <div className="">
       <h2 className="text-2xl font-bold mb-6 text-center">Create Account</h2>
       <form onSubmit={formik.handleSubmit} className="">
-        <div className='max-w-full'>
+        <div className='max-w-full mb-4'>
           <label htmlFor="email" className="block text-sm font-medium mb-4px">
             Email
           </label>
@@ -46,7 +46,7 @@ export default function Register() {
           )}
         </div>
 
-        <div>
+        <div className='max-w-full mb-4'>
           <label htmlFor="password" className="block text-sm font-medium mb-1">
             Password
           </label>
@@ -61,7 +61,7 @@ export default function Register() {
           )}
         </div>
 
-        <div>
+        <div className='max-w-full mb-4'>
           <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1">
             Confirm Password
           </label>
