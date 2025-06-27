@@ -25,12 +25,12 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const handleMessage =useCallback( (message: { data: string }) => {
-            const data = JSON.parse(message?.data);
-      switch (data.type) {
+      const data = JSON.parse(message?.data);
+      switch (data.event) {
         case 'back':
           if (step <= 0) {
             postMessage({
-              type: 'back',
+              event: 'back',
             });
             return
           }
