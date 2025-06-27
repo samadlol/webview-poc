@@ -1,14 +1,14 @@
 'use client';
-import { useWizard } from '@/context/WizardContext';
+import { Any, useWizard } from '@/context/WizardContext';
 import { useState } from 'react';
 import Image from 'next/image';
 
 export default function DocumentUpload() {
-  const { setStep, updateFormData } = useWizard();
+  const { formData, setStep, updateFormData } = useWizard();
   const [files, setFiles] = useState({
-    tradeLicense: null as File | null,
-    eidFront: null as File | null,
-    eidBack: null as File | null,
+    tradeLicense: ((formData.documents as Any)?.tradeLicense as Blob | MediaSource | string) || null,
+    eidFront: ((formData.documents as Any)?.eidFront as Blob | MediaSource | string) || null,
+    eidBack: ((formData.documents as Any)?.eidBack as Blob | MediaSource | string)
   });
 
   const handleFileChange = (
@@ -22,17 +22,18 @@ export default function DocumentUpload() {
   };
 
   const handleContinue = () => {
-    if (files.tradeLicense && files.eidFront && files.eidBack) {
+    if (Object.values(files).some(x => typeof x !== "string")&& files.tradeLicense && files.eidFront && files.eidBack) {
       // In a real app, you would upload these files to a server
       updateFormData({
         documents: {
-          tradeLicense: URL.createObjectURL(files.tradeLicense),
-          eidFront: URL.createObjectURL(files.eidFront),
-          eidBack: URL.createObjectURL(files.eidBack),
+          tradeLicense: URL.createObjectURL(files.tradeLicense as MediaSource),
+          eidFront: URL.createObjectURL(files.eidFront as MediaSource),
+          eidBack: URL.createObjectURL(files.eidBack as MediaSource),
         },
       });
-      setStep(5);
     }
+    setStep(5);
+
   };
 
   const renderFileInput = (
@@ -49,7 +50,7 @@ export default function DocumentUpload() {
             height: "100px"
           }}>
             <Image
-              src={URL.createObjectURL(files[type]!)}
+              src={typeof files[type] == "string" ? files[type] : URL.createObjectURL(files[type]!)}
               alt={label}
               fill
               className="object-contain rounded"

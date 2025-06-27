@@ -27,8 +27,8 @@ const services = [
 ];
 
 export default function ServiceSelection() {
-  const { setStep, updateFormData } = useWizard();
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const { formData, setStep, updateFormData } = useWizard();
+  const [selectedServices, setSelectedServices] = useState<string[]>(()=> (formData.selectedServices as []) || []);
 
   const toggleService = (serviceId: string) => {
     setSelectedServices((prev) =>

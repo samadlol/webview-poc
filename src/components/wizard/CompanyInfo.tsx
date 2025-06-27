@@ -4,14 +4,14 @@ import * as Yup from 'yup';
 import { useWizard } from '@/context/WizardContext';
 
 export default function CompanyInfo() {
-  const { setStep, updateFormData } = useWizard();
+  const { formData,  setStep, updateFormData } = useWizard();
 
   const formik = useFormik({
     initialValues: {
-      phoneNumber: '',
-      companyEmail: '',
-      crNumber: '',
-      nationalId: '',
+      phoneNumber: (formData["phoneNumber"] as string) || '',
+      companyEmail: (formData["companyEmail"] as string) || '',
+      crNumber: (formData["crNumber"] as string) || '',
+      nationalId: (formData["nationalId"] as string) || '',
     },
     validationSchema: Yup.object({
       phoneNumber: Yup.string().required('Required'),

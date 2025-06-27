@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Any = Record<string, unknown>
+export type Any = Record<string, unknown>
 
 interface WizardContextType {
   step: number;

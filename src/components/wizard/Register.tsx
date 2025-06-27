@@ -4,13 +4,13 @@ import * as Yup from 'yup';
 import { useWizard } from '@/context/WizardContext';
 
 export default function Register() {
-  const { setStep, updateFormData } = useWizard();
+  const { formData, setStep, updateFormData } = useWizard();
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
+      email: (formData.email as string) || '',
+      password: (formData.password as string) || '',
+      confirmPassword: (formData.confirmPassword as string) || '',
     },
     validationSchema: Yup.object({
       email: Yup.string().email('Invalid email address').required('Required'),

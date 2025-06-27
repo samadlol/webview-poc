@@ -4,13 +4,14 @@ import { useWizard } from '@/context/WizardContext';
 import ReactOTPInput from 'react-otp-input';
 
 export default function OtpVerification() {
-    const { setStep } = useWizard();
-    const [otp, setOtp] = useState('');
+    const { formData,setStep, updateFormData } = useWizard();
+    const [otp, setOtp] = useState(()=> (formData.otp as string) || '');
 
     const handleVerify = () => {
         // Mock verification - in real app, this would verify with backend
         if (otp.length === 6) {
             setStep(2);
+            updateFormData({ otp });
         }
     };
 
@@ -30,8 +31,9 @@ export default function OtpVerification() {
                     inputStyle={{
                         marginTop: "30px",
                         marginBottom: "30px",
-                        width: '30px',
-                        height: '30px',
+                        padding: 0,
+                        width: '3rem',
+                        height: '3rem',
                         margin: '0 2px',
                         fontSize: '20px',
                         borderRadius: '8px',
@@ -39,10 +41,7 @@ export default function OtpVerification() {
                     }}
                     containerStyle={{
                         display: 'flex',
-                        justifyContent: 'center',
-                        overflowX: 'auto',
-                        gap: '0.1rem',
-                        maxWidth: '100%',
+                        justifyContent: 'space-between',
                     }}
                 />
             </div>

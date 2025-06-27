@@ -23,21 +23,20 @@ const steps = [
 
 function WizardSteps() {
   const { step } = useWizard();
-  console.log('WizardContent step:', step);
+  const stepsLength = steps.length;
 
   return (
     <div className="relative mb-8">
-      <div className="flex justify-between items-center">
-        {steps.map((_, index) => (
-          <div
-            key={index}
-            className={`w-3 h-3 rounded-full ${
-              index <= step ? 'bg-blue-600' : 'bg-gray-300'
-            }`}
-          />
-        ))}
+      <div className="w-full h-2 bg-gray-200 rounded-xl overflow-hidden relative">
+        <div
+          className="h-2 bg-blue-500 transition-all duration-300"
+          style={{
+            width: `${((step) / (stepsLength - 1)) * 100}%`,
+          }}
+        />
       </div>
-      <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2 -z-10" />
+      <div className="flex justify-between absolute top-0 left-0 w-full h-2 pointer-events-none">
+      </div>
       <p className="text-center text-sm text-gray-600 mt-2">
         Step {step + 1} of {steps.length}: {steps[step]}
       </p>
