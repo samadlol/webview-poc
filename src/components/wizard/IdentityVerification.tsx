@@ -27,7 +27,7 @@ export default function IdentityVerification() {
                 return prev - 1;
             });
         }, 1000);
-    }, [setCountdown, setIsRecording, setRecordingComplete, updateFormData]);
+    }, [setCountdown, setIsRecording, setRecordingComplete, ]);
     const handleMessage = useCallback((message: { data: string }) => {
         try {
             const data = JSON.parse(message?.data);
