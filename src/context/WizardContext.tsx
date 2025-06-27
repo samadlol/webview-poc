@@ -1,12 +1,13 @@
 'use client';
-import React, { createContext, useContext, useState } from 'react';
+import { postMessage } from '@/utils/eventDispatcher';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export type Any = Record<string, unknown>
 
 interface WizardContextType {
   step: number;
   formData: Any;
-  setStep: (step: number | ((step: number)=> number)) => void;
+  setStep: (step: number | ((step: number) => number)) => void;
   updateFormData: (data: Any) => void;
 }
 
@@ -15,6 +16,23 @@ const WizardContext = createContext<WizardContextType | undefined>(undefined);
 export function WizardProvider({ children }: { children: React.ReactNode }) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<Any>({});
+
+  useEffect(() => {
+    window.addEventListener('message', (event) => {
+      const data = JSON.parse(event.data);
+      switch (data.type) {
+        case 'back':
+          if (step <= 0) {
+            postMessage({
+              type: 'back',
+            });
+            return
+          }
+          setStep((prev) => Math.max(prev - 1, 0));
+          break;
+      }
+    })
+  }, []);
 
   const updateFormData = (data: Any) => {
     setFormData((prev: Any) => ({ ...prev, ...data }));
