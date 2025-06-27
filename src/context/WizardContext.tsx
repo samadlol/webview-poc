@@ -17,27 +17,27 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<Any>({});
 
-  useEffect(() => {
-    window.addEventListener('message',handleMessage)
-    return () => {
-      window.removeEventListener('message', handleMessage);
+  const handleMessage = useCallback((message: { data: string }) => {
+    const data = JSON.parse(message?.data);
+    switch (data.event) {
+      case 'back':
+        if (step <= 0) {
+          postMessage({
+            event: 'back',
+          });
+          return
+        }
+        setStep((prev) => Math.max(prev - 1, 0));
+        break;
     }
-  }, []);
+  }, [step]);
 
-  const handleMessage =useCallback( (message: { data: string }) => {
-      const data = JSON.parse(message?.data);
-      switch (data.event) {
-        case 'back':
-          if (step <= 0) {
-            postMessage({
-              event: 'back',
-            });
-            return
-          }
-          setStep((prev) => Math.max(prev - 1, 0));
-          break;
-      }
-    }, [step]);
+  useEffect(() => {
+    window.addEventListener("message", handleMessage)
+    return () => {
+      window.removeEventListener("message", handleMessage)
+    }
+  }, [handleMessage]);
 
   const updateFormData = (data: Any) => {
     setFormData((prev: Any) => ({ ...prev, ...data }));
