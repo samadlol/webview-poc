@@ -2,6 +2,7 @@
 import { WizardProvider } from '@/context/WizardContext';
 import { useWizard } from '@/context/WizardContext';
 import dynamic from 'next/dynamic';
+import Header from '@/components/Header';
 
 const Register = dynamic(() => import('@/components/wizard/Register'));
 const OtpVerification = dynamic(() => import('@/components/wizard/OtpVerification'));
@@ -69,15 +70,14 @@ function WizardContent() {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50" style={{
-      // width: "90vw !important"
-    }}>
-      <WizardProvider>
-        <div className="mx-auto pt-8 px-4">
+    <WizardProvider>
+      <main className="min-h-screen bg-gray-50">
+        <Header />
+        <div className="max-w-md mx-auto px-4">
           <WizardSteps />
           <WizardContent />
         </div>
-      </WizardProvider>
-    </main>
+      </main>
+    </WizardProvider>
   );
 }
